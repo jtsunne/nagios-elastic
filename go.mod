@@ -1,6 +1,6 @@
 module nagios-es
 
-go 1.23.0
+go 1.23
 
 require (
 	github.com/atc0005/go-nagios v0.16.1 // indirect
