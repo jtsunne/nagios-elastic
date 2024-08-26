@@ -3,10 +3,11 @@ package checks
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/atc0005/go-nagios"
 	"io"
 	"nagios-es/config"
 	"net/http"
+
+	"github.com/atc0005/go-nagios"
 )
 
 type ClusterNodeCountResponse struct {
@@ -24,14 +25,8 @@ func CheckClusterNodeCount(c *config.Config) *nagios.Plugin {
 		plugin.ExitStatusCode = nagios.StateCRITICALExitCode
 		return plugin
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			plugin.ServiceOutput = "CRITICAL: Failed to read response from Elasticsearch"
-			plugin.ExitStatusCode = nagios.StateCRITICALExitCode
-			plugin.Errors = append(plugin.Errors, err)
-		}
-	}(resp.Body)
+
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {

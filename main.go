@@ -11,14 +11,15 @@ import (
 func main() {
 	cfg, err := config.LoadConfig()
 	if err != nil {
-		helper.ErrorUnknown("Cant load config")
+		helper.ErrorUnknown("Can't load config")
 	}
 
 	if cfg.ElasticsearchURL == "" {
 		helper.ErrorUnknown("Elasticsearch URL is required")
 	}
+
 	if cfg.Check == "" {
-		helper.ErrorUnknown("Check is required")
+		helper.ErrorUnknown("Check name is required")
 	}
 
 	var plugin *nagios.Plugin

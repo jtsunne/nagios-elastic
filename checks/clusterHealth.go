@@ -3,11 +3,12 @@ package checks
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/atc0005/go-nagios"
 	"io"
 	"log"
 	"nagios-es/config"
 	"net/http"
+
+	"github.com/atc0005/go-nagios"
 )
 
 type ClusterHealthResponse struct {
@@ -61,10 +62,12 @@ func CheckClusterHealth(c *config.Config) *nagios.Plugin {
 			{Label: "unassigned_shards", Value: fmt.Sprintf("%d", health.UnassignedShards)},
 			{Label: "active_shards", Value: fmt.Sprintf("%d", health.ActiveShards)},
 		}
+
 		if err := plugin.AddPerfData(false, pd...); err != nil {
-			log.Printf("failed to add performance data metrics: %v", err)
+			log.Printf("failed to add performance data metrics: %v\n", err)
 			plugin.Errors = append(plugin.Errors, err)
 		}
+
 		plugin.ExitStatusCode = nagios.StateWARNINGExitCode
 	case "red":
 		plugin.ServiceOutput = "CRITICAL: Cluster health is red"

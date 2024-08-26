@@ -26,33 +26,31 @@ func LoadConfig() (*Config, error) {
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
 
-	err := viper.BindPFlags(pflag.CommandLine)
-	if err != nil {
+	if err := viper.BindPFlags(pflag.CommandLine); err != nil {
 		return nil, err
 	}
 
-	err = viper.BindEnv("es_url")
-	if err != nil {
+	if err := viper.BindEnv("es_url"); err != nil {
 		return nil, err
 	}
-	err = viper.BindEnv("check")
-	if err != nil {
+
+	if err := viper.BindEnv("check"); err != nil {
 		return nil, err
 	}
-	err = viper.BindEnv("node_ip")
-	if err != nil {
+
+	if err := viper.BindEnv("node_ip"); err != nil {
 		return nil, err
 	}
-	err = viper.BindEnv("node_name")
-	if err != nil {
+
+	if err := viper.BindEnv("node_name"); err != nil {
 		return nil, err
 	}
-	err = viper.BindEnv("w")
-	if err != nil {
+
+	if err := viper.BindEnv("w"); err != nil {
 		return nil, err
 	}
-	err = viper.BindEnv("c")
-	if err != nil {
+
+	if err := viper.BindEnv("c"); err != nil {
 		return nil, err
 	}
 
