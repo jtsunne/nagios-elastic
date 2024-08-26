@@ -42,18 +42,17 @@ func CheckClusterNodeCount(c *config.Config) *nagios.Plugin {
 		return plugin
 	}
 
-	if health.NumberOfNodes < c.CriticalThreshold {
+	switch {
+	case health.NumberOfNodes < c.CriticalThreshold:
 		plugin.ServiceOutput = fmt.Sprintf("CRITICAL: Number of nodes is %d", health.NumberOfNodes)
 		plugin.ExitStatusCode = nagios.StateCRITICALExitCode
-		return plugin
-	}
-	if health.NumberOfNodes < c.WarningThreshold {
+	case health.NumberOfNodes < c.WarningThreshold:
 		plugin.ServiceOutput = fmt.Sprintf("WARNING: Number of nodes is %d", health.NumberOfNodes)
 		plugin.ExitStatusCode = nagios.StateWARNINGExitCode
-		return plugin
+	default:
+		plugin.ServiceOutput = fmt.Sprintf("OK: Number of nodes is %d", health.NumberOfNodes)
+		plugin.ExitStatusCode = nagios.StateOKExitCode
 	}
 
-	plugin.ServiceOutput = fmt.Sprintf("OK: Number of nodes is %d", health.NumberOfNodes)
-	plugin.ExitStatusCode = nagios.StateOKExitCode
 	return plugin
 }
